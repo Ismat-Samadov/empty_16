@@ -349,34 +349,59 @@ def chart_top20_comparison(wiki_df):
     total_production = wiki_df['Production (tonnes)'].sum()
     top20['Market Share (%)'] = (top20['Production (tonnes)'] / total_production * 100)
 
-    fig, ax = plt.subplots(figsize=(14, 8))
+    # Create figure with more height to accommodate labels
+    fig, ax = plt.subplots(figsize=(16, 9))
 
+    # Create gradient colors
+    colors = sns.color_palette("Spectral_r", 20)
     bars = ax.bar(range(len(top20)), top20['Market Share (%)'],
-                  color=sns.color_palette("rocket_r", 20), alpha=0.8, edgecolor='black', linewidth=0.5)
+                  color=colors, alpha=0.85, edgecolor='black', linewidth=0.7)
 
-    ax.set_xlabel('Country', fontsize=12, fontweight='bold')
-    ax.set_ylabel('Global Market Share (%)', fontsize=12, fontweight='bold')
-    ax.set_title('Top 20 Coffee Producers - Global Market Share', fontsize=16, fontweight='bold', pad=20)
+    # Styling
+    ax.set_xlabel('Country', fontsize=13, fontweight='bold', labelpad=10)
+    ax.set_ylabel('Global Market Share (%)', fontsize=13, fontweight='bold', labelpad=10)
+    ax.set_title('Top 20 Coffee Producers - Global Market Share',
+                 fontsize=18, fontweight='bold', pad=25)
+
+    # Improve x-axis labels
     ax.set_xticks(range(len(top20)))
-    ax.set_xticklabels(top20['Country'], rotation=45, ha='right', fontsize=9)
+    ax.set_xticklabels(top20['Country'], rotation=60, ha='right', fontsize=10)
+    ax.set_ylim([0, max(top20['Market Share (%)']) * 1.15])
 
-    # Add percentage labels
+    # Add percentage labels on bars
     for i, (bar, pct) in enumerate(zip(bars, top20['Market Share (%)'])):
-        if pct > 1.5:
-            ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.3,
-                   f'{pct:.1f}%', ha='center', va='bottom', fontweight='bold', fontsize=8)
+        if pct > 2.0:
+            ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.4,
+                   f'{pct:.1f}%', ha='center', va='bottom', fontweight='bold', fontsize=9)
+        elif pct > 1.0:
+            ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.2,
+                   f'{pct:.1f}%', ha='center', va='bottom', fontsize=7)
 
-    # Add cumulative line
+    # Add cumulative line on secondary axis
     ax2 = ax.twinx()
     cumulative = top20['Market Share (%)'].cumsum()
-    ax2.plot(range(len(top20)), cumulative, color='darkred', marker='o',
-             linewidth=2, markersize=4, label='Cumulative %')
-    ax2.set_ylabel('Cumulative Market Share (%)', fontsize=11, fontweight='bold', color='darkred')
-    ax2.tick_params(axis='y', labelcolor='darkred')
-    ax2.set_ylim([0, 105])
-    ax2.legend(loc='upper left')
+    line = ax2.plot(range(len(top20)), cumulative, color='#8B0000', marker='o',
+                    linewidth=2.5, markersize=5, label='Cumulative Market Share',
+                    markeredgecolor='white', markeredgewidth=1.5, zorder=10)
 
+    ax2.set_ylabel('Cumulative Market Share (%)', fontsize=13, fontweight='bold',
+                   color='#8B0000', labelpad=10)
+    ax2.tick_params(axis='y', labelcolor='#8B0000', labelsize=10)
+    ax2.set_ylim([0, 105])
+    ax2.grid(False)
+
+    # Add legend for cumulative line
+    ax2.legend(loc='upper left', fontsize=11, frameon=True, shadow=True,
+               fancybox=True, framealpha=0.9)
+
+    # Add grid for better readability
+    ax.grid(axis='y', alpha=0.3, linestyle='--', linewidth=0.7)
+    ax.set_axisbelow(True)
+
+    # Improve layout
     plt.tight_layout()
+    plt.subplots_adjust(bottom=0.15)  # Extra space for rotated labels
+
     plt.savefig(CHARTS_DIR / "07_market_share_top20.png", dpi=300, bbox_inches='tight')
     plt.close()
 
