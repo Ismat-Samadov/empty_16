@@ -1,8 +1,8 @@
 # Kazakhstan Apartment Market — Executive Insight Report
 
-> **Data source:** Krisha.kz — Kazakhstan's largest real estate marketplace
-> **Sample:** 763 active apartment listings across major cities
-> **Focus:** Almaty · Astana · Shymkent and regional markets
+> - **Data source:** Krisha.kz — Kazakhstan's largest real estate marketplace
+> - **Sample:** 763 active apartment listings across major cities
+> - **Focus:** Almaty · Astana · Shymkent and regional markets
 
 ---
 
