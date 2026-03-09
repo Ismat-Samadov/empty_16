@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <radialGradient id="pieceGrad" cx="40%" cy="35%" r="60%">
+      <stop offset="0%" stop-color="#c084fc"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </radialGradient>
+    <radialGradient id="glowGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="64" height="64" rx="14" fill="#06060f"/>
+
+  <!-- Checkerboard pattern (2×2 preview) -->
+  <rect x="4"  y="4"  width="14" height="14" rx="2" fill="#1a1332"/>
+  <rect x="18" y="4"  width="14" height="14" rx="2" fill="#0d0d1a"/>
+  <rect x="4"  y="18" width="14" height="14" rx="2" fill="#0d0d1a"/>
+  <rect x="18" y="18" width="14" height="14" rx="2" fill="#1a1332"/>
+
+  <!-- Glow halo behind main piece -->
+  <circle cx="40" cy="36" r="22" fill="url(#glowGrad)"/>
+
+  <!-- Main king piece -->
+  <circle cx="40" cy="36" r="18" fill="url(#pieceGrad)" filter="url(#glow)"/>
+
+  <!-- Inner shine -->
+  <ellipse cx="35" cy="29" rx="7" ry="4" fill="white" opacity="0.25"/>
+
+  <!-- Crown symbol -->
+  <text x="40" y="42" text-anchor="middle" font-size="18" fill="white" opacity="0.95" font-family="serif">♛</text>
+</svg>
